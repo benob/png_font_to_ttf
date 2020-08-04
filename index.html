@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style>
+@font-face {
+	font-family: test;
+	src: url("bitmap_fonts/polyducks_gloop_8x8.woff") format("opentype");
+}
+pre {
+	font-family: test;
+}
+		</style>
+	</head>
+
+	<body>
+		<h1>PNG Font to TTF converter</h1>
+		<p>
+		This tool converts a bitmap font where black pixels are background to a ttf font.
+		</p>
+
+		<p>
+		Requirements: python3, Pillow, fontforge
+		</p>
+
+		<p>
+		Usage: <code>python png_font_to_ttf.py output.woff input.png char-width char-height</code>
+		</p>
+
+		Source code: <a href="https://github.com/benob/png_font_to_ttf">https://github.com/benob/png_font_to_ttf</a>
+
+		<p>
+		Demo:  to access non-alphanumeric characters, use entities in the range 0xe000-0xe0ff.
+		<pre>Hello roguelikers
+01236!!#
+
+######
+#$...#
+#..@.#
+#]..~#
+#+####
+
+&#xe0af;&#xe09f;&#xe001;</pre>
+		Font generated with "<tt>python png_font_to_ttf.py test.woff bitmap_fonts/polyducks_gloop_8x8.png 8 8</tt>"
+		(thx to polyducks for his excellent fonts)
+
+		<h3>Example fonts</h3>
+		</p>
+<script>
+	function add_font_class(name, url) {
+		var newStyle = document.createElement('style');
+		newStyle.appendChild(document.createTextNode("\
+			@font-face {\
+				font-family: " + name + ";\
+				src: url('" + url + "') format('opentype');\
+			}\
+			." + name + " {\
+				font-family: " + name + ";\
+			}\
+		"));
+		document.head.appendChild(newStyle);
+	}
+
+	function char_matrix() {
+		var output = "";
+		for(var i = 0; i < 256; i++) {
+			if(i != 0 && i % 16 == 0) output += "\n";
+			output += "&#xe0" + ('000' + i.toString(16)).substr(-2) + ";";
+		}
+		return output;
+	}
+
+ 	var fonts = "bitmap_fonts/aquarius_8x8.woff bitmap_fonts/cp437-thin_8x16.woff bitmap_fonts/max_brazilian_8x8.woff bitmap_fonts/unscii_8x16.woff bitmap_fonts/ascii_8x8.woff bitmap_fonts/cp437-thin_8x8.woff bitmap_fonts/zx_evolution_8x8.woff bitmap_fonts/cp437_8x14.woff bitmap_fonts/drake_10x10.woff bitmap_fonts/polyducks_12x12.woff bitmap_fonts/cp437_8x16.woff bitmap_fonts/gumix_cp437_6x6.woff bitmap_fonts/polyducks_gloop_8x8.woff bitmap_fonts/cp437_9x16.woff bitmap_fonts/hitachi_MB-6880_8x8.woff bitmap_fonts/qbicfeet_10x10.woff".split(/  */);
+	
+	for(var i = 0; i < fonts.length; i++) {
+		add_font_class('f' + i, fonts[i]);
+		var p = document.createElement("p");
+		document.body.appendChild(p);
+		var pre = document.createElement("pre");
+		pre.className = "f" + i;
+		pre.innerHTML = char_matrix();
+		p.appendChild(document.createTextNode(fonts[i]));
+		p.appendChild(pre);
+	}
+console.log(char_matrix());
+
+</script>
+	</body>
+</html>
