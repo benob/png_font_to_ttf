@@ -5,10 +5,11 @@
 		<style>
 @font-face {
 	font-family: test;
-	src: url("bitmap_fonts/polyducks_gloop_8x8.woff") format("opentype");
+	src: url("bitmap_fonts/ascii_8x8.woff") format("opentype");
 }
 pre {
 	font-family: test;
+	line-height: 100%;
 }
 		</style>
 	</head>
@@ -31,7 +32,7 @@ pre {
 
 		<p>
 		Demo:  to access non-alphanumeric characters, use entities in the range 0xe000-0xe0ff.
-		<pre>Hello roguelikers
+		<p><textarea rows="10" onkeyup="document.getElementById('target').innerHTML = value">Hello roguelikers
 01236!!#
 
 ######
@@ -40,11 +41,20 @@ pre {
 #]..~#
 #+####
 
-&#xe0af;&#xe09f;&#xe001;</pre>
-		Font generated with "<tt>python png_font_to_ttf.py test.woff bitmap_fonts/polyducks_gloop_8x8.png 8 8</tt>"
-		(thx to polyducks for his excellent fonts)
+&amp;#xe0af;&amp;#xe09f;&amp;#xe001;</textarea><pre id="target">Hello roguelikers
+01236!!#
 
-		<h3>Example fonts</h3>
+######
+#$...#
+#..@.#
+#]..~#
+#+####
+
+&#xe0af;&#xe09f;&#xe001;</pre></p>
+
+
+		<h2>Example fonts</h2>
+		(thx to polyducks and others for their excellent bitmap fonts)
 		</p>
 <script>
 	function add_font_class(name, url) {
@@ -79,7 +89,10 @@ pre {
 		var pre = document.createElement("pre");
 		pre.className = "f" + i;
 		pre.innerHTML = char_matrix();
-		p.appendChild(document.createTextNode(fonts[i]));
+		var link = document.createElement("a");
+		link.href = "https://github.com/benob/png_font_to_ttf/raw/master/" + fonts[i];
+		link.innerText = fonts[i];
+		p.appendChild(link);
 		p.appendChild(pre);
 	}
 console.log(char_matrix());
